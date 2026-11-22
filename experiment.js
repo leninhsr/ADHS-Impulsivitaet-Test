@@ -22,6 +22,8 @@
   const SPEED = !LIVE && Number(urlParams.get("speed")) > 0 ? Number(urlParams.get("speed")) : 1;
   const ms = (seconds) => Math.round((seconds * 1000) / SPEED);
 
+  const CATCH = C.USE_CATCH_TRIALS ? C.CATCH_TRIALS : [];
+
   const BTN = jsPsychHtmlButtonResponse;
   const KEY = jsPsychHtmlKeyboardResponse;
 
@@ -499,7 +501,7 @@
 
   function buildBlock(cond, blockNumber) {
     const parts = [];
-    const nRegularAndCatch = C.EARLY_AMOUNTS.length * C.LATE_DELAYS_S.length + C.CATCH_TRIALS.length;
+    const nRegularAndCatch = C.EARLY_AMOUNTS.length * C.LATE_DELAYS_S.length + CATCH.length;
     parts.push({
       type: BTN,
       stimulus: "<h1>Teil " + blockNumber + " von 2</h1>" + RULE_BOX(cond) +
@@ -520,7 +522,7 @@
     });
     const specs = jsPsych.randomization.shuffle(
       regularSpecs().map((s) => ({ spec: s, kind: "regular" }))
-        .concat(C.CATCH_TRIALS.map((s) => ({ spec: s, kind: "catch" })))
+        .concat(CATCH.map((s) => ({ spec: s, kind: "catch" })))
     );
     specs.forEach(function (entry, i) {
       const node = buildTrial(entry.spec, cond, entry.kind, "Teil " + blockNumber + " · Durchgang " + (i + 1) + " von " + specs.length);
@@ -645,7 +647,7 @@
       d.early_rate_unavoidable = rate("unavoidable");
       d.delay_aversion_index = d.early_rate_avoidable !== null && d.early_rate_unavoidable !== null
         ? Math.round((d.early_rate_avoidable - d.early_rate_unavoidable) * 1000) / 1000 : null;
-      d.catch_errors = catchRows.count() - catchRows.select("catch_correct").sum();
+      d.catch_errors = catchRows.count() > 0 ? catchRows.count() - catchRows.select("catch_correct").sum() : null;
       d.regular_trials_away = regular.filterCustom((r) => r.away_count_trial > 0).count();
       // Nur das Datum, keine Uhrzeit: So lässt sich ein Datensatz nicht über den Zeitpunkt einer E-Mail zuordnen.
       const now = new Date();

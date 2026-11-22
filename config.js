@@ -1,6 +1,6 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.6",
+  APP_VERSION: "0.6.7",
 
   // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
@@ -124,7 +124,12 @@ const CONFIG = {
   LATE_AMOUNT: 100,                    // Euro, spätere Möglichkeit
   LATE_DELAYS_S: [5, 10, 15, 20],
 
+  // Catch Trials ein (true) oder aus (false). Seit 22.11.2026 aus (Patrick): pro Teil nur die 20 regulären Durchgänge.
+  // Bei false entfallen die Catch Trials, die Spalten catch_richtig/catch_fehler und die Ausschlussregel dazu.
+  USE_CATCH_TRIALS: false,
+
   // Catch Trials pro Bedingung (Kontrolldurchgänge mit einer klar besseren Option, nicht in den Kennwerten).
+  // Wirkt nur mit USE_CATCH_TRIALS: true.
   // "correct" nennt die Option, die klar besser ist. Zeilen löschen = weniger Catch Trials.
   // Wer die Zahl ändert, passt in auswertung/auswertung.R die Regel MAX_CATCH_FEHLER an.
   CATCH_TRIALS: [

@@ -62,7 +62,7 @@ const COLUMNS = [
   { de: "dauer_durchgang_ms", intern: "trial_total_ms", wo: "wahl", bedeutung: "Tatsächliche Dauer des ganzen Durchgangs in Millisekunden." },
   { de: "verlassen_anzahl", intern: "away_count_trial", wo: "wahl", bedeutung: "Wie oft die Person in diesem Durchgang die Seite verlassen hat (anderer Tab, andere App)." },
   { de: "verlassen_ms", intern: "away_ms_trial", wo: "wahl", bedeutung: "Wie lange die Seite in diesem Durchgang verlassen war, in Millisekunden." },
-  { de: "catch_richtig", intern: "catch_correct", wo: "wahl", bedeutung: "Nur bei Catch Trials: 1 = die klar bessere Möglichkeit gewählt, 0 = nicht." },
+  { de: "catch_richtig", intern: "catch_correct", wo: "wahl", bedeutung: "Nur bei Catch Trials: 1 = die klar bessere Möglichkeit gewählt, 0 = nicht. Nur vorhanden, wenn Catch Trials eingeschaltet sind (USE_CATCH_TRIALS).", wenn: "USE_CATCH_TRIALS" },
 
   { de: "fragebogen", intern: "questionnaire", wo: "fragebogen", bedeutung: "asrs oder upps." },
   { de: "seite", intern: "page", wo: "fragebogen", bedeutung: "Seitennummer im Fragebogen. Die Antworten dieser Seite stehen in den Spalten asrs_… oder upps_…" },
@@ -76,7 +76,7 @@ const COLUMNS = [
   { de: "sofortwahl_vermeidbar", intern: "early_rate_avoidable", wo: "zusammenfassung", bedeutung: "Anteil früher Wahlen im Teil „vermeidbar“ (0 bis 1). Nur zur Kontrolle; die Auswertung rechnet neu." },
   { de: "sofortwahl_unvermeidbar", intern: "early_rate_unavoidable", wo: "zusammenfassung", bedeutung: "Anteil früher Wahlen im Teil „unvermeidbar“ (0 bis 1). Nur zur Kontrolle." },
   { de: "delay_aversion_index", intern: "delay_aversion_index", wo: "zusammenfassung", bedeutung: "Sofortwahlrate vermeidbar minus unvermeidbar. Nur zur Kontrolle." },
-  { de: "catch_fehler", intern: "catch_errors", wo: "zusammenfassung", bedeutung: "Zahl der falsch beantworteten Catch Trials (von 10)." },
+  { de: "catch_fehler", intern: "catch_errors", wo: "zusammenfassung", bedeutung: "Zahl der falsch beantworteten Catch Trials (von 10). Nur vorhanden, wenn Catch Trials eingeschaltet sind (USE_CATCH_TRIALS).", wenn: "USE_CATCH_TRIALS" },
   { de: "durchgaenge_verlassen", intern: "regular_trials_away", wo: "zusammenfassung", bedeutung: "Zahl der regulären Durchgänge, in denen die Seite verlassen wurde." },
   { de: "abgeschlossen_am", intern: "finished_at", wo: "zusammenfassung", bedeutung: "Datum des Abschlusses, ohne Uhrzeit." }
 ];
