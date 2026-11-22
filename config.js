@@ -1,10 +1,12 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.2-test",
+  APP_VERSION: "0.6.3",
 
-  // DataPipe-Experiment-ID (pipe.jspsych.org). Leer = Testmodus:
+  // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
-  DATAPIPE_EXPERIMENT_ID: "",
+  // Mit ID, aber ohne freigegebenen Einwilligungstext (CONSENT_TEXT_FINAL unten) bleibt der normale Link im Testmodus.
+  // Probelauf mit Upload: Link mit ?probelauf=1 aufrufen (Dateien heißen probelauf_..., fallen aus der Auswertung).
+  DATAPIPE_EXPERIMENT_ID: "78w2OxMMRSKN",
 
   // Titel der Studie (erscheint auf der Startseite, über der Einwilligung und im Browser-Tab).
   STUDY_TITLE: "ADHS-Symptomatik und impulsive Entscheidungen",
@@ -20,7 +22,7 @@ const CONFIG = {
   CONTACT_EMAIL: "leni.neuhauser@student.medicalschool-berlin.de",
 
   // Erst auf true setzen, wenn der Einwilligungstext final und von der Hochschule freigegeben ist.
-  // Solange false, verweigert die App den Echtbetrieb.
+  // Solange false, gibt es keinen Echtbetrieb (nur Testmodus oder Probelauf mit ?probelauf=1).
   CONSENT_TEXT_FINAL: false,
 
   // Reihenfolge der Studienteile:

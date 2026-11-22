@@ -13,7 +13,7 @@ const COLUMNS = [
     werte: { geraet: "browser", einwilligung: "consent", person: "demographics", verstaendnisfrage: "comprehension", wahl: "choice", fragebogen: "questionnaire", adhs_fragen: "adhd_questions", abschlussfragen: "end_questions", zusammenfassung: "summary" } },
   { de: "zeit_seit_start_ms", intern: "time_elapsed", wo: "alle", bedeutung: "Millisekunden vom Öffnen der Studie bis zum Ende dieser Seite oder dieses Durchgangs. Keine Uhrzeit." },
   { de: "app_version", intern: "app_version", wo: "alle", bedeutung: "Version der Studien-App." },
-  { de: "modus", intern: "mode", wo: "alle", bedeutung: "Echte Erhebung oder Testlauf. Testläufe fallen aus der Auswertung.", werte: { echt: "live", test: "test" } },
+  { de: "modus", intern: "mode", wo: "alle", bedeutung: "Echte Erhebung oder Testlauf. Testläufe fallen aus der Auswertung.", werte: { echt: "live", probelauf: "probelauf", test: "test" } },
   { de: "zeitraffer", intern: "speed", wo: "alle", bedeutung: "1 = normale Geschwindigkeit. Größer als 1 gibt es nur in Testläufen." },
   { de: "reihenfolge_studie", intern: "study_order", wo: "alle", bedeutung: "Reihenfolge der Studienteile.", werte: { aufgabe_zuerst: "task_first", frageboegen_zuerst: "questionnaires_first" } },
   { de: "reihenfolge_teile", intern: "block_order", wo: "alle", bedeutung: "Zufällige Reihenfolge der zwei Aufgabenteile, z. B. vermeidbar>unvermeidbar.", werte: { vermeidbar: "avoidable", unvermeidbar: "unavoidable" } },

@@ -5,7 +5,15 @@
 
   const C = CONFIG;
   const urlParams = new URLSearchParams(window.location.search);
-  const LIVE = C.DATAPIPE_EXPERIMENT_ID !== "";
+  // Echtbetrieb: Experiment-ID eingetragen UND Einwilligungstext freigegeben.
+  // Probelauf: Experiment-ID eingetragen, Einwilligungstext noch nicht freigegeben, Aufruf mit ?probelauf=1.
+  //   Lädt hoch (Dateinamen beginnen mit "probelauf_", Spalte modus = probelauf, fällt aus der Auswertung).
+  // Sonst Testmodus: kein Upload, Download am Ende.
+  const HAS_ID = C.DATAPIPE_EXPERIMENT_ID !== "";
+  const LIVE = HAS_ID && C.CONSENT_TEXT_FINAL === true;
+  const PILOT = HAS_ID && !LIVE && urlParams.get("probelauf") === "1";
+  const UPLOAD = LIVE || PILOT;
+  const FILE_PREFIX = PILOT ? "probelauf_" : "";
   // Code, den SONA beim Start anhängt (?sona_id=...). Er dient nur dem Rücksprung zu SONA am Ende
   // und wird nicht in den Daten gespeichert.
   const SONA_ID = /^[A-Za-z0-9_-]{1,64}$/.test(urlParams.get("sona_id") || "") ? urlParams.get("sona_id") : "";
@@ -75,7 +83,7 @@
     participant_id: participantId,
     block_order: blockOrder.join(">"),
     app_version: C.APP_VERSION,
-    mode: LIVE ? "live" : "test",
+    mode: LIVE ? "live" : (PILOT ? "probelauf" : "test"),
     speed: SPEED,
     study_order: C.ORDER,
     adhd_questions_position: C.ADHD_QUESTIONS,
@@ -100,12 +108,11 @@
     const missing = QUESTIONNAIRES.filter((q) => q.items.length === 0).map((q) => q.id);
     if (missing.length > 0) problems.push("Fragebogen-Items fehlen: " + missing.join(", "));
     if (UNVERIFIED.length > 0) problems.push("Wortlaut des Fragebogens ist noch nicht freigegeben (wording_verified): " + UNVERIFIED.join(", "));
-    if (!C.CONSENT_TEXT_FINAL) problems.push("Der Einwilligungstext ist noch nicht freigegeben (CONSENT_TEXT_FINAL).");
     if (problems.length > 0) { fatal(problems.join("<br>")); return; }
   } else {
     const banner = document.createElement("div");
     banner.className = "testbanner";
-    banner.textContent = "TESTMODUS · kein Upload" + (SPEED !== 1 ? " · Zeitraffer x" + SPEED : "") +
+    banner.textContent = (PILOT ? "PROBELAUF · Upload zu DataPipe" : "TESTMODUS · kein Upload") + (SPEED !== 1 ? " · Zeitraffer x" + SPEED : "") +
       (UNVERIFIED.length > 0 ? " · " + UNVERIFIED.join(", ").toUpperCase() + " vorläufig" : "");
     document.body.appendChild(banner);
     document.body.classList.add("testmode");
@@ -149,7 +156,7 @@
     }
   }
 
-  // ---------------------------------------------------------------- Speichern über DataPipe (-> OSF)
+  // ---------------------------------------------------------------- Speichern über DataPipe (-> Zenodo)
   // Eigene Umsetzung statt des Pipe-Plugins: Das Plugin meldet auch bei einem Netzwerkfehler "Erfolg".
   const sleep = (t) => new Promise((resolve) => setTimeout(resolve, t));
   async function upload(filename, data) {
@@ -163,6 +170,8 @@
         });
         const json = await res.json().catch(() => null);
         if (res.ok && json && !json.error) return { success: true, attempts: attempt };
+        // Antwort auf einen früheren Versuch ging verloren, die Datei liegt aber schon dort.
+        if (attempt > 1 && json && json.error === "FILE_EXISTS") return { success: true, attempts: attempt, note: "FILE_EXISTS" };
         lastError = "HTTP " + res.status + (json ? " " + (json.error || json.message || "") : "");
       } catch (e) {
         lastError = String(e);
@@ -177,7 +186,7 @@
       async: true,
       func: function (done) {
         jsPsych.getDisplayElement().innerHTML = message;
-        upload(participantId + suffix, csvData()).then(done);
+        upload(FILE_PREFIX + participantId + suffix, csvData()).then(done);
       },
       data: { row_type: rowType }
     };
@@ -577,7 +586,7 @@
   // ---------------------------------------------------------------- Reihenfolge und Zwischenspeicherung
   const parts = C.ORDER === "task_first" ? [taskNodes, questionnaireNodes] : [questionnaireNodes, taskNodes];
   parts[0].forEach((node) => timeline.push(node));
-  if (LIVE) timeline.push(saveTrial("_teil1.csv", "save_part1",
+  if (UPLOAD) timeline.push(saveTrial("_teil1.csv", "save_part1",
     "<p>Ihre Antworten werden gespeichert. Bitte schließen Sie die Seite nicht.</p>"));
   parts[1].forEach((node) => timeline.push(node));
 
@@ -641,7 +650,7 @@
   });
 
   // ---------------------------------------------------------------- 8 Speichern und Ende
-  if (LIVE) timeline.push(saveTrial("_komplett.csv", "save_final",
+  if (UPLOAD) timeline.push(saveTrial("_komplett.csv", "save_final",
     "<p>Ihre Daten werden gespeichert. Bitte schließen Sie die Seite noch nicht.</p>"));
 
   timeline.push({
@@ -665,14 +674,14 @@
         "<h2>Kontakt</h2><p>Bei Fragen zur Studie können Sie sich gerne an die Studienleitung wenden:</p>" +
         "<p>" + C.CONTACT_NAME + "<br>" + C.CONTACT_ORG + "<br>E-Mail: " + C.CONTACT_EMAIL + "</p>" +
         "<p>Vielen Dank für Ihre Zeit und Unterstützung!</p>";
-      const saved = LIVE ? jsPsych.data.get().filter({ row_type: "save_final" }).values()[0] : null;
-      if (LIVE && saved && saved.value && saved.value.success) {
+      const saved = UPLOAD ? jsPsych.data.get().filter({ row_type: "save_final" }).values()[0] : null;
+      if (UPLOAD && saved && saved.value && saved.value.success) {
         return debrief + done + "<p>Ihre Daten wurden gespeichert. " +
           (SONA_BACK ? "Nach dem Klick auf die Schaltfläche können Sie dieses Browserfenster schließen." : "Sie können dieses Browserfenster nun schließen.") + "</p></div>";
       }
       const url = URL.createObjectURL(new Blob([csvData()], { type: "text/csv" }));
       const link = '<p><a href="' + url + '" download="' + participantId + '_komplett.csv" id="download-link">Daten als Datei herunterladen</a></p>';
-      if (LIVE) {
+      if (UPLOAD) {
         return debrief + done + '<p class="error">Die Daten konnten leider nicht automatisch gespeichert werden.</p>' +
           "<p>Bitte laden Sie die Datei herunter und senden Sie sie an " + C.CONTACT_EMAIL + ". Die Datei enthält keinen Namen.</p>" + link + "</div>";
       }
