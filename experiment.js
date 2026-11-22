@@ -108,6 +108,7 @@
     const missing = QUESTIONNAIRES.filter((q) => q.items.length === 0).map((q) => q.id);
     if (missing.length > 0) problems.push("Fragebogen-Items fehlen: " + missing.join(", "));
     if (UNVERIFIED.length > 0) problems.push("Wortlaut des Fragebogens ist noch nicht freigegeben (wording_verified): " + UNVERIFIED.join(", "));
+    if (!C.DATA_DELETION_DATE) problems.push("Die Löschfrist fehlt (DATA_DELETION_DATE in config.js).");
     if (problems.length > 0) { fatal(problems.join("<br>")); return; }
   } else {
     const banner = document.createElement("div");
@@ -229,10 +230,10 @@
   // ---------------------------------------------------------------- 1b Startseite: Was kommt, worum wir bitten
   document.title = "Studie: " + C.STUDY_TITLE;
   const TASK_FIRST = C.ORDER === "task_first";
-  const STEP_TASK = "<li>" + (TASK_FIRST ? "Zuerst bearbeiten Sie" : "Im Anschluss bearbeiten Sie noch") +
+  const STEP_TASK = "<li>" + (TASK_FIRST ? "Danach bearbeiten Sie" : "Im Anschluss bearbeiten Sie") +
     " eine Entscheidungsaufgabe in zwei Teilen (" + C.DURATION_TASK + "). Sie wählen jeweils zwischen zwei Geldbeträgen. " +
     "Das Geld ist fiktiv und wird nicht ausgezahlt. Bevor die Aufgabe beginnt, haben Sie kurz Zeit, sie zu üben.</li>";
-  const STEP_QUEST = "<li>" + (TASK_FIRST ? "Im Anschluss bearbeiten Sie noch" : "Zuerst bearbeiten Sie") +
+  const STEP_QUEST = "<li>" + (TASK_FIRST ? "Im Anschluss bearbeiten Sie" : "Danach bearbeiten Sie") +
     " zwei Fragebögen (" + C.DURATION_QUESTIONNAIRES + ").</li>";
   timeline.push({
     type: BTN,
@@ -240,8 +241,9 @@
       '<div class="left"><h1>Willkommen</h1>' +
       "<p>Vielen Dank, dass Sie an der Studie „" + C.STUDY_TITLE + "“ teilnehmen möchten. Sie dauert " + C.DURATION_TOTAL + ".</p>" +
       "<h2>Das kommt auf Sie zu</h2><ol>" +
+      "<li>Zu Beginn machen Sie einige kurze Angaben zu Ihrer Person.</li>" +
       (TASK_FIRST ? STEP_TASK + STEP_QUEST : STEP_QUEST + STEP_TASK) +
-      "<li>Zum Schluss folgen noch einige Angaben zu Ihnen als Person.</li></ol>" +
+      "<li>Zum Schluss folgen noch einige kurze Abschlussfragen.</li></ol>" +
       "<h2>Darum bitten wir Sie</h2><ul>" +
       "<li>Suchen Sie sich einen ruhigen Ort, an dem Sie ungestört sind.</li>" +
       "<li>Bearbeiten Sie die Studie am Stück. Sie lässt sich nicht unterbrechen und später fortsetzen.</li>" +
@@ -254,14 +256,24 @@
   });
 
   // ---------------------------------------------------------------- 2 Information und Einwilligung
+  function consentInfo() {
+    const deletion = C.DATA_DELETION_DATE ? C.DATA_DELETION_DATE : '<span class="missing">[LÖSCHFRIST FEHLT]</span>';
+    const fill = (t) => t.replace("{DAUER}", C.DURATION_TOTAL).replace("{LOESCHFRIST}", deletion);
+    let html = '<div class="consent-info"><p>' + C.CONSENT_GREETING + "</p>";
+    C.CONSENT_SECTIONS.forEach(function (s) {
+      if (s.title) html += "<h2>" + s.title + "</h2>";
+      s.paragraphs.forEach(function (p) { html += "<p>" + fill(p) + "</p>"; });
+    });
+    html += "<h2>Verantwortlichkeit und Kontakt</h2><p>Verantwortlich für die Durchführung der Studie ist:</p>" +
+      "<p>" + C.CONTACT_NAME + "<br>" + C.CONTACT_ORG + "<br>E-Mail: " + C.CONTACT_EMAIL + "</p>";
+    C.CONSENT_CLOSING.forEach(function (p) { html += "<p>" + p + "</p>"; });
+    return html + "</div>";
+  }
   timeline.push({
     type: jsPsychSurveyHtmlForm,
     html:
       '<div class="left"><h1>Studie „' + C.STUDY_TITLE + '“</h1>' +
-      '<div class="placeholder"><b>PLATZHALTER.</b> Hier steht die Teilnahmeinformation mit Datenschutzhinweis ' +
-      "in der von der Hochschule freigegebenen Fassung: Zweck, Ablauf, Dauer (ca. 30 Minuten), Freiwilligkeit, " +
-      "Abbruch jederzeit ohne Nachteile, Art der Daten (auch Angaben zur Gesundheit), anonyme Speicherung, " +
-      "Speicherort, Löschfrist, Verantwortliche, Kontakt: " + C.CONTACT_NAME + ", " + C.CONTACT_ORG + ", " + C.CONTACT_EMAIL + ".</div>" +
+      consentInfo() +
       "<h2>Teilnahmevoraussetzungen und Einwilligung</h2>" +
       '<div class="form">' +
       '<label class="check"><input type="checkbox" name="c_age" value="1" required><span>Ich bin zwischen ' + C.AGE_MIN + " und " + C.AGE_MAX + " Jahre alt.</span></label>" +
@@ -657,13 +669,11 @@
     type: KEY, choices: "NO_KEYS",
     on_start: function () { window.removeEventListener("beforeunload", warnOnLeave); },
     stimulus: function () {
-      // Aufklärungstext von Leni (19.11.2026). Der grüne Kasten steht oben, damit er auf dem Screenshot ist.
+      // Aufklärungstext von Leni (19.11.2026); Studienziel seit 0.6.4 nur noch in der Teilnahmeinformation. Der grüne Kasten steht oben, damit er auf dem Screenshot ist.
       const debrief =
         '<div class="left"><h1>Vielen Dank für Ihre Teilnahme!</h1>' +
         "<p>Sie haben die Studie zu ADHS-Symptomatik und impulsiven Entscheidungen erfolgreich abgeschlossen.</p>" +
         '<div class="box done"><b>Teilnahme abgeschlossen</b><br>' + new Date().toLocaleDateString("de-DE") + "</div>" +
-        "<p>Ziel der Studie ist es, Zusammenhänge zwischen ADHS-Symptomatik und impulsivem Entscheidungsverhalten zu untersuchen. " +
-        "Dazu wurden zwei Fragebögen und eine Entscheidungsaufgabe eingesetzt.</p>" +
         "<p><b>Wichtiger Hinweis:</b> Die verwendeten Fragebögen dienen ausschließlich wissenschaftlichen Forschungszwecken " +
         "und stellen keine klinische Diagnostik dar. Aus den Ergebnissen können weder eine ADHS-Diagnose noch andere psychische Diagnosen abgeleitet werden.</p>";
       const credit = SONA_BACK

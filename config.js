@@ -1,6 +1,6 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.3",
+  APP_VERSION: "0.6.4",
 
   // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
@@ -24,6 +24,37 @@ const CONFIG = {
   // Erst auf true setzen, wenn der Einwilligungstext final und von der Hochschule freigegeben ist.
   // Solange false, gibt es keinen Echtbetrieb (nur Testmodus oder Probelauf mit ?probelauf=1).
   CONSENT_TEXT_FINAL: false,
+
+  // Löschfrist für die Teilnahmeinformation, z. B. "30.09.2027". Leer = Platzhalter wird angezeigt, Echtbetrieb gesperrt.
+  DATA_DELETION_DATE: "",
+
+  // Teilnahmeinformation (Seite 2, über den Einwilligungs-Häkchen). Text von Leni (22.11.2026), auf „Sie“ umgestellt.
+  // Platzhalter im Text: {DAUER} = DURATION_TOTAL, {LOESCHFRIST} = DATA_DELETION_DATE. Kontakt kommt aus CONTACT_*.
+  CONSENT_GREETING: "Liebe Teilnehmer*innen,",
+  CONSENT_SECTIONS: [
+    { title: "", paragraphs: [
+      "vielen Dank für Ihr Interesse an der Teilnahme an dieser wissenschaftlichen Studie im Rahmen meiner Bachelorarbeit im Studiengang Psychologie an der Medical School Berlin."
+    ] },
+    { title: "Ziel der Studie", paragraphs: [
+      "Ziel dieser Untersuchung ist es, den Zusammenhang zwischen ADHS-Symptomatik und impulsiven Entscheidungsprozessen zu untersuchen. Dabei steht insbesondere die Frage im Mittelpunkt, inwiefern Unterschiede in der ADHS-Symptomatik mit der Bewertung und dem Treffen von Entscheidungen unter zeitlicher Verzögerung zusammenhängen."
+    ] },
+    { title: "Ablauf und Dauer", paragraphs: [
+      "Die Teilnahme erfolgt online und dauert {DAUER}. Im Rahmen der Untersuchung werden zunächst einige Angaben zu Ihrer Person erhoben. Anschließend bearbeiten Sie eine computergestützte Entscheidungsaufgabe, bei der Sie zwischen unterschiedlichen Entscheidungsalternativen wählen sollen, und im Anschluss bearbeiten Sie noch verschiedene Fragebögen.",
+      "Bitte bearbeiten Sie die Aufgaben möglichst aufmerksam und entsprechend Ihrer tatsächlichen Einschätzungen. Es gibt keine richtigen oder falschen Antworten."
+    ] },
+    { title: "Freiwilligkeit der Teilnahme", paragraphs: [
+      "Die Teilnahme an der Studie ist freiwillig. Sie können die Untersuchung jederzeit und ohne Angabe von Gründen abbrechen. Daraus entstehen Ihnen keinerlei Nachteile. Durch die Teilnahme entstehen Ihnen keine Kosten und es wird keine Vergütung ausgezahlt."
+    ] },
+    { title: "Erhobene Daten und Datenschutz", paragraphs: [
+      "Im Rahmen der Studie werden soziodemografische Angaben sowie Informationen zur ADHS-Symptomatik und zu Ihrem Entscheidungsverhalten erhoben. Dabei können auch Angaben zu Ihrer Gesundheit erfasst werden.",
+      "Die erhobenen Daten werden ausschließlich zu wissenschaftlichen Forschungszwecken im Rahmen dieser Bachelorarbeit verwendet. Die Datenerhebung und -auswertung erfolgen anonym. Eine Zuordnung der Daten zu Ihrer Person ist nicht möglich.",
+      "Die Speicherung der Daten erfolgt in einem nicht öffentlichen Bereich der Forschungsdatenplattform Zenodo, die vom CERN betrieben wird. Die Übertragung dorthin erfolgt verschlüsselt über den Dienst DataPipe. Die Daten werden bis zum {LOESCHFRIST} aufbewahrt und anschließend gelöscht."
+    ] }
+  ],
+  CONSENT_CLOSING: [
+    "Bei Fragen zur Studie oder zur Teilnahme können Sie sich jederzeit unter der angegebenen E-Mail-Adresse melden.",
+    "Vielen Dank für Ihre Unterstützung!"
+  ],
 
   // Reihenfolge der Studienteile:
   //   "questionnaires_first" = erst Fragebögen, dann Aufgabe (wie im Exposé)
