@@ -108,7 +108,6 @@
     const missing = QUESTIONNAIRES.filter((q) => q.items.length === 0).map((q) => q.id);
     if (missing.length > 0) problems.push("Fragebogen-Items fehlen: " + missing.join(", "));
     if (UNVERIFIED.length > 0) problems.push("Wortlaut des Fragebogens ist noch nicht freigegeben (wording_verified): " + UNVERIFIED.join(", "));
-    if (!C.DATA_DELETION_DATE) problems.push("Die Löschfrist fehlt (DATA_DELETION_DATE in config.js).");
     if (problems.length > 0) { fatal(problems.join("<br>")); return; }
   } else {
     const banner = document.createElement("div");
@@ -148,6 +147,10 @@
     const lines = [cols.map((c) => quote(c.head)).join(",")];
     rows.forEach((r) => lines.push(cols.map((c) => quote(translate(c, r[c.key]))).join(",")));
     return lines.join("\r\n") + "\r\n";
+  }
+
+  function escapeHtml(t) {
+    return String(t).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
   }
 
   function flattenResponse(data) {
@@ -257,8 +260,7 @@
 
   // ---------------------------------------------------------------- 2 Information und Einwilligung
   function consentInfo() {
-    const deletion = C.DATA_DELETION_DATE ? C.DATA_DELETION_DATE : '<span class="missing">[LÖSCHFRIST FEHLT]</span>';
-    const fill = (t) => t.replace("{DAUER}", C.DURATION_TOTAL).replace("{LOESCHFRIST}", deletion);
+    const fill = (t) => t.replace("{DAUER}", C.DURATION_TOTAL);
     let html = '<div class="consent-info"><p>' + C.CONSENT_GREETING + "</p>";
     C.CONSENT_SECTIONS.forEach(function (s) {
       if (s.title) html += "<h2>" + s.title + "</h2>";
@@ -693,7 +695,8 @@
       const link = '<p><a href="' + url + '" download="' + participantId + '_komplett.csv" id="download-link">Daten als Datei herunterladen</a></p>';
       if (UPLOAD) {
         return debrief + done + '<p class="error">Die Daten konnten leider nicht automatisch gespeichert werden.</p>' +
-          "<p>Bitte laden Sie die Datei herunter und senden Sie sie an " + C.CONTACT_EMAIL + ". Die Datei enthält keinen Namen.</p>" + link + "</div>";
+          "<p>Bitte laden Sie die Datei herunter und senden Sie sie an " + C.CONTACT_EMAIL + ". Die Datei enthält keinen Namen.</p>" + link +
+          '<p class="hint">Technischer Hinweis: ' + escapeHtml((saved && saved.value && saved.value.error) || "keine Antwort") + "</p></div>";
       }
       return debrief + done + "<p><b>Testmodus:</b> Es wurde nichts hochgeladen.</p>" + link + "</div>";
     }

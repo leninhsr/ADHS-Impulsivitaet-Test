@@ -1,6 +1,6 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.4",
+  APP_VERSION: "0.6.5",
 
   // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
@@ -25,11 +25,9 @@ const CONFIG = {
   // Solange false, gibt es keinen Echtbetrieb (nur Testmodus oder Probelauf mit ?probelauf=1).
   CONSENT_TEXT_FINAL: false,
 
-  // Löschfrist für die Teilnahmeinformation, z. B. "30.09.2027". Leer = Platzhalter wird angezeigt, Echtbetrieb gesperrt.
-  DATA_DELETION_DATE: "",
-
   // Teilnahmeinformation (Seite 2, über den Einwilligungs-Häkchen). Text von Leni (22.11.2026), auf „Sie“ umgestellt.
-  // Platzhalter im Text: {DAUER} = DURATION_TOTAL, {LOESCHFRIST} = DATA_DELETION_DATE. Kontakt kommt aus CONTACT_*.
+  // Platzhalter im Text: {DAUER} = DURATION_TOTAL. Kontakt kommt aus CONTACT_*.
+  // 22.11.2026 (Patrick): Satz zur Löschfrist entfernt (Frist unbekannt), Satz zu Versuchspersonenstunden ergänzt.
   CONSENT_GREETING: "Liebe Teilnehmer*innen,",
   CONSENT_SECTIONS: [
     { title: "", paragraphs: [
@@ -43,12 +41,12 @@ const CONFIG = {
       "Bitte bearbeiten Sie die Aufgaben möglichst aufmerksam und entsprechend Ihrer tatsächlichen Einschätzungen. Es gibt keine richtigen oder falschen Antworten."
     ] },
     { title: "Freiwilligkeit der Teilnahme", paragraphs: [
-      "Die Teilnahme an der Studie ist freiwillig. Sie können die Untersuchung jederzeit und ohne Angabe von Gründen abbrechen. Daraus entstehen Ihnen keinerlei Nachteile. Durch die Teilnahme entstehen Ihnen keine Kosten und es wird keine Vergütung ausgezahlt."
+      "Die Teilnahme an der Studie ist freiwillig. Sie können die Untersuchung jederzeit und ohne Angabe von Gründen abbrechen. Daraus entstehen Ihnen keinerlei Nachteile. Durch die Teilnahme entstehen Ihnen keine Kosten und es wird keine Vergütung ausgezahlt. Studierende der Medical School Berlin können für ihre Teilnahme Versuchspersonenstunden erhalten."
     ] },
     { title: "Erhobene Daten und Datenschutz", paragraphs: [
       "Im Rahmen der Studie werden soziodemografische Angaben sowie Informationen zur ADHS-Symptomatik und zu Ihrem Entscheidungsverhalten erhoben. Dabei können auch Angaben zu Ihrer Gesundheit erfasst werden.",
       "Die erhobenen Daten werden ausschließlich zu wissenschaftlichen Forschungszwecken im Rahmen dieser Bachelorarbeit verwendet. Die Datenerhebung und -auswertung erfolgen anonym. Eine Zuordnung der Daten zu Ihrer Person ist nicht möglich.",
-      "Die Speicherung der Daten erfolgt in einem nicht öffentlichen Bereich der Forschungsdatenplattform Zenodo, die vom CERN betrieben wird. Die Übertragung dorthin erfolgt verschlüsselt über den Dienst DataPipe. Die Daten werden bis zum {LOESCHFRIST} aufbewahrt und anschließend gelöscht."
+      "Die Speicherung der Daten erfolgt in einem nicht öffentlichen Bereich der Forschungsdatenplattform Zenodo, die vom CERN betrieben wird. Die Übertragung dorthin erfolgt verschlüsselt über den Dienst DataPipe."
     ] }
   ],
   CONSENT_CLOSING: [

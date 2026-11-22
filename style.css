@@ -8,7 +8,6 @@ h1 { font-size: 1.5em; margin: 0 0 0.6em; }
 h2 { font-size: 1.2em; margin: 1em 0 0.4em; }
 
 .consent-info h2 { font-size: 1.05em; }
-.missing { background: #fff3c4; color: #8a4b00; font-weight: bold; padding: 0 4px; }
 .placeholder { background: #fff3c4; border: 1px solid #e0c060; border-radius: 6px; padding: 10px 14px; text-align: left; font-size: 0.9em; }
 .testbanner { position: fixed; top: 0; left: 0; right: 0; background: #b3261e; color: #fff; font-size: 13px; padding: 3px 8px; z-index: 10; text-align: center; }
 
