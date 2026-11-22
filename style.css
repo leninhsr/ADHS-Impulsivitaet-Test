@@ -1,0 +1,121 @@
+body { background: #f6f5f2; color: #1d1d1b; }
+.jspsych-content { max-width: 760px; font-size: 18px; line-height: 1.5; }
+.jspsych-content p { margin: 0.7em 0; }
+.left { text-align: left; }
+.left ul, .left ol { padding-left: 24px; margin: 8px 0 14px; }
+.left li { margin: 6px 0; }
+h1 { font-size: 1.5em; margin: 0 0 0.6em; }
+h2 { font-size: 1.2em; margin: 1em 0 0.4em; }
+
+.placeholder { background: #fff3c4; border: 1px solid #e0c060; border-radius: 6px; padding: 10px 14px; text-align: left; font-size: 0.9em; }
+.testbanner { position: fixed; top: 0; left: 0; right: 0; background: #b3261e; color: #fff; font-size: 13px; padding: 3px 8px; z-index: 10; text-align: center; }
+
+.form { text-align: left; }
+.form label { display: block; margin: 0.9em 0 0.2em; }
+.form label.check { display: flex; gap: 10px; align-items: flex-start; margin: 0.7em 0; }
+.form label.check input { margin-top: 6px; transform: scale(1.3); flex: none; }
+.form input[type=number], .form select, .form textarea { font-size: 17px; padding: 6px 8px; width: 100%; max-width: 340px; box-sizing: border-box; }
+.form textarea { max-width: 100%; }
+.hint { color: #5f5e5a; font-size: 0.88em; }
+
+/* Aufgabe */
+.task-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; color: #5f5e5a; font-size: 15px; border-bottom: 1px solid #d8d6d0; padding-bottom: 6px; margin: 0 auto 8px; width: min(620px, 92vw); box-sizing: border-box; }
+a.sona-back { display: inline-block; text-decoration: none; color: #1d1d1b; font-weight: 600; border-color: #2f6f4f; }
+.task-head .score { color: #1d1d1b; font-weight: 600; white-space: nowrap; }
+.task-rule { color: #5f5e5a; font-size: 14px; margin: 0 auto 28px; width: min(620px, 92vw); }
+.task-head.norule { margin-bottom: 28px; }
+.task-body { min-height: 150px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.task-prompt { font-size: 20px; margin: 0; }
+#jspsych-html-button-response-btngroup, .ghost { display: flex; justify-content: center; flex-wrap: wrap; gap: min(36px, 4vw); margin: 0 auto; }
+.ghost { visibility: hidden; }
+.option { display: block; width: min(250px, 44vw); padding: 26px 6px; border-radius: 12px; border: 2px solid #8a8880; background: #fff; cursor: pointer; font-family: inherit; font-size: 18px; line-height: 1.3; color: inherit; box-sizing: border-box; margin: 0; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { button.option:hover { border-color: #1d1d1b; background: #fbfaf7; } }
+button.option:active { border-color: #1d1d1b; background: #f0efec; }
+.option .pts { display: block; font-size: 30px; font-weight: 700; white-space: nowrap; }
+.option .dly { display: block; font-size: 18px; margin-top: 6px; color: #3d3d3a; white-space: nowrap; }
+.reward { font-size: 40px; font-weight: 700; color: #1b6b3a; }
+.wait-text { font-size: 20px; color: #3d3d3a; margin-bottom: 18px; }
+.dots { display: flex; gap: 12px; }
+.dots span { width: 14px; height: 14px; border-radius: 50%; background: #8a8880; animation: pulse 1.2s ease-in-out infinite; }
+.dots span:nth-child(2) { animation-delay: 0.2s; }
+.dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes pulse { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+.task-head, .task-rule, .task-body, .option { -webkit-user-select: none; user-select: none; }
+
+.box { background: #fff; border: 1px solid #d8d6d0; border-radius: 8px; padding: 12px 16px; text-align: left; margin: 12px 0; }
+.error { color: #b3261e; font-weight: 600; }
+
+/* Schaubild zum Ablauf und Beispielbild */
+.demo { margin-top: 10px; border-top: 1px solid #e4e2dc; padding-top: 8px; }
+.demo-title { font-size: 0.8em; text-transform: uppercase; letter-spacing: 0.06em; color: #5f5e5a; margin: 0 0 2px; }
+.jspsych-content .demo-label { font-size: 0.9em; margin: 8px 0 4px; }
+.demo-track { display: flex; align-items: stretch; gap: 3px; height: 34px; font-size: 13px; }
+.seg { display: flex; align-items: center; justify-content: center; border-radius: 5px; white-space: nowrap; overflow: hidden; flex: 0 0 auto; padding: 0 6px; box-sizing: border-box; }
+.seg.wait { background: #e4e2dc; color: #3d3d3a; flex: 1 1 0; min-width: 30px; padding: 0 2px; }
+.seg.win { background: #1b6b3a; color: #fff; font-weight: 700; }
+.seg.next { background: #fff; border: 1px solid #8a8880; color: #1d1d1b; }
+.seg.gap { flex: 1 1 0; padding: 0; }
+.example { background: #fff; border: 1px solid #d8d6d0; border-radius: 8px; padding: 14px; margin: 12px 0; }
+.example-row { display: flex; justify-content: center; gap: 16px; }
+.example-option { width: min(210px, 46%); padding: 16px 4px 12px; text-align: center; cursor: default; position: relative; }
+.example-option.chosen { border-color: #1b6b3a; border-width: 3px; background: #eef6f0; }
+.example-option .tap { display: block; margin-top: 8px; font-size: 13px; font-weight: 700; color: #1b6b3a; }
+.example-steps { margin: 12px 0 0; padding-left: 22px; text-align: left; }
+.example-steps li { margin: 2px 0; }
+.box.done { text-align: center; border-color: #1b6b3a; background: #eef6f0; }
+
+/* Testmodus: Platz für den roten Balken */
+body.testmode .jspsych-content-wrapper { padding-top: 44px; box-sizing: border-box; }
+body { overscroll-behavior: none; -webkit-text-size-adjust: 100%; }
+.jspsych-btn { touch-action: manipulation; }
+
+/* Smartphones */
+@media (max-width: 600px) {
+  .jspsych-content-wrapper { padding-left: 14px; padding-right: 14px; box-sizing: border-box; }
+  .jspsych-content { font-size: 16px; max-width: 100%; }
+  .task-head, .task-rule { width: 100%; }
+  .option { width: calc(50% - 8px); }
+  #jspsych-html-button-response-btngroup.jspsych-btn-group-flex, .ghost { flex-wrap: nowrap; gap: 16px; width: 100%; }
+  #jspsych-html-button-response-btngroup.jspsych-btn-group-grid { flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+  .jspsych-btn { margin: 4px; max-width: 100%; white-space: normal; line-height: 1.35; }
+  h1 { font-size: 1.3em; }
+  .task-rule { font-size: 13px; margin-bottom: 18px; }
+  .task-head.norule { margin-bottom: 18px; }
+  .task-head span { white-space: nowrap; }
+  .task-body { min-height: 110px; }
+  .option { padding: 22px 2px; }
+  .option .pts { font-size: 23px; }
+  .option .dly { font-size: 14px; }
+  .reward { font-size: 32px; }
+  .jspsych-btn { padding: 12px 18px; font-size: 16px; }
+  .form input[type=number], .form select, .form textarea { font-size: 16px; max-width: 100%; }
+  /* Fragebögen: Antwortstufen untereinander, damit lange Beschriftungen nicht überlappen und gut zu treffen sind */
+  .jspsych-survey-likert-statement { text-align: left; padding-top: 28px !important; font-weight: 600; }
+  .jspsych-survey-likert-opts { width: 100% !important; padding: 0 0 6px !important; font-size: 16px !important; }
+  .jspsych-survey-likert-opts:before { display: none !important; }
+  .jspsych-survey-likert-opts li { display: block !important; width: 100% !important; text-align: left !important; margin: 6px 0; }
+  .jspsych-survey-likert-opt-label { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 4px 12px; box-sizing: border-box;
+    border: 1px solid #ccc; border-radius: 8px; background: #fff; line-height: 1.3; color: #1d1d1b; }
+  .jspsych-survey-likert-opts li input[type=radio] { position: static !important; left: auto !important; display: inline-block !important; margin: 0 !important; width: 20px; height: 20px; flex: none; }
+  .jspsych-survey-likert-opt-label:has(input:checked) { border-color: #1d1d1b; background: #f0eee8; }
+  body.testmode .jspsych-content-wrapper { padding-top: 56px; }
+  .box { padding: 10px 12px; }
+  .demo-track { font-size: 12px; height: 32px; }
+  .example { padding: 10px 8px; }
+  .example-row { gap: 10px; }
+  .example-option .pts { font-size: 21px; }
+  .example-option .dly { font-size: 13px; }
+  .testbanner { font-size: 11px; }
+}
+
+/* Touch-Geräte: kein "klebendes" Hover, sonst wirkt die zuletzt berührte Stelle wie vorausgewählt */
+@media (hover: none) {
+  .jspsych-btn:hover { background-color: #fff; border-color: #ccc; }
+  .jspsych-btn:active { background-color: #ddd; }
+}
+
+/* Sehr schmale Handys: Kopfzeile immer zweizeilig, damit sie bei vierstelligem Guthaben nicht springt */
+@media (max-width: 380px) {
+  .task-head { flex-direction: column; align-items: flex-start; gap: 2px; font-size: 14px; }
+  .option .dly { font-size: 13px; }
+}
