@@ -230,30 +230,20 @@
     on_finish: function (d) { isMobile = d.mobile === true; }
   });
 
-  // ---------------------------------------------------------------- 1b Startseite: Was kommt, worum wir bitten
+  // ---------------------------------------------------------------- 1b Startseite: Dauer und worum wir bitten (Ablauf steht in der Teilnahmeinformation)
   document.title = "Studie: " + C.STUDY_TITLE;
   const TASK_FIRST = C.ORDER === "task_first";
-  const STEP_TASK = "<li>" + (TASK_FIRST ? "Danach bearbeiten Sie" : "Im Anschluss bearbeiten Sie") +
-    " eine Entscheidungsaufgabe in zwei Teilen (" + C.DURATION_TASK + "). Sie wählen jeweils zwischen zwei Geldbeträgen. " +
-    "Das Geld ist fiktiv und wird nicht ausgezahlt. Bevor die Aufgabe beginnt, haben Sie kurz Zeit, sie zu üben.</li>";
-  const STEP_QUEST = "<li>" + (TASK_FIRST ? "Im Anschluss bearbeiten Sie" : "Danach bearbeiten Sie") +
-    " zwei Fragebögen (" + C.DURATION_QUESTIONNAIRES + ").</li>";
   timeline.push({
     type: BTN,
     stimulus:
       '<div class="left"><h1>Willkommen</h1>' +
       "<p>Vielen Dank, dass Sie an der Studie „" + C.STUDY_TITLE + "“ teilnehmen möchten. Sie dauert " + C.DURATION_TOTAL + ".</p>" +
-      "<h2>Das kommt auf Sie zu</h2><ol>" +
-      "<li>Zu Beginn machen Sie einige kurze Angaben zu Ihrer Person.</li>" +
-      (TASK_FIRST ? STEP_TASK + STEP_QUEST : STEP_QUEST + STEP_TASK) +
-      "<li>Zum Schluss folgen noch einige kurze Abschlussfragen.</li></ol>" +
       "<h2>Darum bitten wir Sie</h2><ul>" +
       "<li>Suchen Sie sich einen ruhigen Ort, an dem Sie ungestört sind.</li>" +
       "<li>Bearbeiten Sie die Studie am Stück. Sie lässt sich nicht unterbrechen und später fortsetzen.</li>" +
       "<li>Schalten Sie Benachrichtigungen stumm (z. B. „Nicht stören“) und legen Sie andere Geräte weg.</li>" +
       "<li>Versetzen Sie sich in die Lage, dass das Geld in der Aufgabe für Sie einen echten Wert hat. " +
-      "Entscheiden Sie so, wie Sie es dann tun würden.</li>" +
-      "<li>Antworten Sie in den Fragebögen so, wie es auf Sie persönlich zutrifft.</li></ul>" +
+      "Entscheiden Sie so, wie Sie es dann tun würden.</li></ul>" +
       '<p class="hint">Auf der nächsten Seite folgen die Teilnahmeinformation und die Einwilligung.</p></div>',
     choices: ["Weiter"]
   });

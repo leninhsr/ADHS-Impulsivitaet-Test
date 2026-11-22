@@ -1,6 +1,6 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.5",
+  APP_VERSION: "0.6.6",
 
   // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
@@ -11,7 +11,8 @@ const CONFIG = {
   // Titel der Studie (erscheint auf der Startseite, über der Einwilligung und im Browser-Tab).
   STUDY_TITLE: "ADHS-Symptomatik und impulsive Entscheidungen",
 
-  // Dauerangaben auf der Startseite. VORLÄUFIG: nach dem Probelauf mit echten Personen anpassen.
+  // Dauerangaben. VORLÄUFIG: nach dem Probelauf mit echten Personen anpassen.
+  // DURATION_TOTAL: Startseite und Teilnahmeinformation. DURATION_QUESTIONNAIRES: Einleitung der Fragebögen. DURATION_TASK wird derzeit nicht angezeigt.
   DURATION_TOTAL: "etwa 30 Minuten",
   DURATION_TASK: "etwa 20 Minuten",
   DURATION_QUESTIONNAIRES: "etwa 5 bis 10 Minuten",
@@ -37,7 +38,7 @@ const CONFIG = {
       "Ziel dieser Untersuchung ist es, den Zusammenhang zwischen ADHS-Symptomatik und impulsiven Entscheidungsprozessen zu untersuchen. Dabei steht insbesondere die Frage im Mittelpunkt, inwiefern Unterschiede in der ADHS-Symptomatik mit der Bewertung und dem Treffen von Entscheidungen unter zeitlicher Verzögerung zusammenhängen."
     ] },
     { title: "Ablauf und Dauer", paragraphs: [
-      "Die Teilnahme erfolgt online und dauert {DAUER}. Im Rahmen der Untersuchung werden zunächst einige Angaben zu Ihrer Person erhoben. Anschließend bearbeiten Sie eine computergestützte Entscheidungsaufgabe, bei der Sie zwischen unterschiedlichen Entscheidungsalternativen wählen sollen, und im Anschluss bearbeiten Sie noch verschiedene Fragebögen.",
+      "Die Teilnahme erfolgt online und dauert {DAUER}. Im Rahmen der Untersuchung werden zunächst einige Angaben zu Ihrer Person erhoben. Anschließend bearbeiten Sie eine computergestützte Entscheidungsaufgabe, bei der Sie zwischen unterschiedlichen Entscheidungsalternativen wählen sollen, und im Anschluss bearbeiten Sie noch zwei Fragebögen.",
       "Bitte bearbeiten Sie die Aufgaben möglichst aufmerksam und entsprechend Ihrer tatsächlichen Einschätzungen. Es gibt keine richtigen oder falschen Antworten."
     ] },
     { title: "Freiwilligkeit der Teilnahme", paragraphs: [
