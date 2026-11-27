@@ -1,6 +1,6 @@
 // Einstellungen der Studie. Alles, was sich ohne Programmierkenntnisse ändern lässt, steht hier.
 const CONFIG = {
-  APP_VERSION: "0.6.7",
+  APP_VERSION: "0.6.8",
 
   // DataPipe-Experiment-ID (pipe.jspsych.org, Speicherort Zenodo). Leer = Testmodus:
   // Daten werden nicht hochgeladen, sondern am Ende zum Download angeboten.
@@ -29,6 +29,7 @@ const CONFIG = {
   // Teilnahmeinformation (Seite 2, über den Einwilligungs-Häkchen). Text von Leni (22.11.2026), auf „Sie“ umgestellt.
   // Platzhalter im Text: {DAUER} = DURATION_TOTAL. Kontakt kommt aus CONTACT_*.
   // 22.11.2026 (Patrick): Satz zur Löschfrist entfernt (Frist unbekannt), Satz zu Versuchspersonenstunden ergänzt.
+  // 27.11.2026 (Professor): Absatz zu IP-Adressen bei GitHub und Google ergänzt.
   CONSENT_GREETING: "Liebe Teilnehmer*innen,",
   CONSENT_SECTIONS: [
     { title: "", paragraphs: [
@@ -47,7 +48,8 @@ const CONFIG = {
     { title: "Erhobene Daten und Datenschutz", paragraphs: [
       "Im Rahmen der Studie werden soziodemografische Angaben sowie Informationen zur ADHS-Symptomatik und zu Ihrem Entscheidungsverhalten erhoben. Dabei können auch Angaben zu Ihrer Gesundheit erfasst werden.",
       "Die erhobenen Daten werden ausschließlich zu wissenschaftlichen Forschungszwecken im Rahmen dieser Bachelorarbeit verwendet. Die Datenerhebung und -auswertung erfolgen anonym. Eine Zuordnung der Daten zu Ihrer Person ist nicht möglich.",
-      "Die Speicherung der Daten erfolgt in einem nicht öffentlichen Bereich der Forschungsdatenplattform Zenodo, die vom CERN betrieben wird. Die Übertragung dorthin erfolgt verschlüsselt über den Dienst DataPipe."
+      "Die Speicherung der Daten erfolgt in einem nicht öffentlichen Bereich der Forschungsdatenplattform Zenodo, die vom CERN betrieben wird. Die Übertragung dorthin erfolgt verschlüsselt über den Dienst DataPipe.",
+      "Die Studienseite wird über GitHub bereitgestellt, der Dienst DataPipe nutzt Server von Google. Diese Anbieter können aus technischen Gründen Ihre IP-Adresse für einen begrenzten Zeitraum speichern. Diese Adressen liegen der Versuchsleitung nicht vor und können zu keinem Zeitpunkt mit Ihren Antworten in Verbindung gebracht werden."
     ] }
   ],
   CONSENT_CLOSING: [
@@ -80,6 +82,10 @@ const CONFIG = {
   // Abschlussfragen zu Ablenkung während der Wartezeiten und zu technischen Problemen.
   // Seit 19.11.2026 aus (Rückmeldung Leni). Die Frage, ob die Daten ausgewertet werden sollen, bleibt.
   ASK_DISTRACTION_TECH: false,
+
+  // Guthaben während der Durchgänge oben rechts anzeigen (true) oder nur am Ende jedes Teils (false).
+  // Seit 27.11.2026 false (Professor: fortlaufende große Summen könnten Sättigung erzeugen).
+  SHOW_RUNNING_TOTAL: false,
 
   // Die Regel zusätzlich während der Durchgänge als Zeile über den Schaltflächen anzeigen.
   SHOW_RULE_LINE: false,

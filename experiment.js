@@ -366,17 +366,17 @@
   }
 
   const RULE = {
-    avoidable: "In diesem Teil beginnt nach der Belohnung sofort der nächste Durchgang.",
-    unavoidable: "In diesem Teil hängt die Dauer eines Durchgangs nicht von Ihrer Wahl ab."
+    avoidable: "In diesem Teil kommt nach der Belohnung sofort die nächste Entscheidung.",
+    unavoidable: "In diesem Teil ist die Zeit bis zur nächsten Entscheidung immer gleich, egal was Sie wählen."
   };
   const RULE_LONG = {
     avoidable:
-      "<p><b>In diesem Teil gilt:</b> Sobald Sie Ihr Geld erhalten haben, beginnt sofort der nächste Durchgang.</p>" +
-      "<p>Wenn Sie die frühere Belohnung wählen, ist der Durchgang also kürzer.</p>" + demo("avoidable"),
+      "<p><b>In diesem Teil gilt:</b> Sobald Sie Ihr Geld erhalten haben, kommt sofort die nächste Entscheidung.</p>" +
+      "<p>Wenn Sie die frühere Belohnung wählen, kommen Sie also schneller zur nächsten Entscheidung.</p>" + demo("avoidable"),
     unavoidable:
-      "<p><b>In diesem Teil gilt:</b> Wie lange ein Durchgang dauert, hängt nicht von Ihrer Wahl ab.</p>" +
+      "<p><b>In diesem Teil gilt:</b> Die Zeit bis zur nächsten Entscheidung ist immer gleich, egal welche Möglichkeit Sie wählen.</p>" +
       "<p>Wenn Sie die frühere Belohnung wählen, erhalten Sie das Geld früher. Danach warten Sie aber noch die restliche Zeit ab, " +
-      "bevor der nächste Durchgang beginnt. Der Durchgang wird dadurch nicht kürzer.</p>" + demo("unavoidable")
+      "bis die nächste Entscheidung kommt. Sie kommen dadurch nicht schneller zur nächsten Entscheidung.</p>" + demo("unavoidable")
   };
 
   const RULE_LINE = C.EXPLAIN_RULE && C.SHOW_RULE_LINE;
@@ -385,7 +385,7 @@
   const seconds = (n) => (n === 1 ? "1 Sekunde" : n + " Sekunden");
   const optionHtml = (o) => '<span class="pts">' + euro(o.amount) + '</span><span class="dly">nach ' + seconds(o.delay) + "</span>";
   const head = (label, cond) =>
-    '<div class="task-head' + (RULE_LINE ? "" : " norule") + '"><span>' + label + '</span><span class="score">Guthaben: ' + euro(score) + "</span></div>" +
+    '<div class="task-head' + (RULE_LINE ? "" : " norule") + '"><span>' + label + "</span>" + (C.SHOW_RUNNING_TOTAL ? '<span class="score">Guthaben: ' + euro(score) + "</span>" : "") + "</div>" +
     (RULE_LINE ? '<p class="task-rule">' + RULE[cond] + "</p>" : "");
   const GHOST = '<div class="ghost" aria-hidden="true"><div class="option"><span class="pts">' + euro(0) + '</span><span class="dly">nach 1 Sekunde</span></div></div>';
   const WAIT_HTML = '<div class="task-body"><div class="wait-text">Bitte warten</div>' +
@@ -516,7 +516,9 @@
     parts.push({
       type: BTN,
       stimulus: "<h1>Die Übung ist vorbei</h1><p>Jetzt beginnt Teil " + blockNumber + " mit " + nRegularAndCatch +
-        " Durchgängen. Das Guthaben startet bei " + euro(0) + ".</p>" + (C.EXPLAIN_RULE ? '<div class="box"><p>' + RULE[cond] + "</p></div>" : ""),
+        " Durchgängen. " + (C.SHOW_RUNNING_TOTAL ? "Das Guthaben startet bei " + euro(0) + "." : "Ihr Guthaben sehen Sie am Ende des Teils.") + "</p>" +
+        (C.EXPLAIN_RULE ? '<div class="box"><p>' + RULE[cond] + "</p></div>" : "") +
+        "<p>Stellen Sie sich bitte vor, es ginge um echte Entscheidungen: um echtes Geld und echte Wartezeiten.</p>",
       choices: ["Teil " + blockNumber + " starten"],
       on_finish: function () { score = 0; }
     });
@@ -558,7 +560,8 @@
       "<p>In jedem Durchgang wählen Sie zwischen zwei Geldbeträgen: einem kleineren, den Sie früher bekommen, " +
       "und einem größeren, auf den Sie länger warten.</p>" +
       "<p>Die Wartezeit ist echt. Nach Ihrer Wahl warten Sie so lange, wie angegeben. Dann wird Ihnen der Betrag gutgeschrieben.</p>" +
-      "<p>Das Geld ist fiktiv und wird nicht ausgezahlt. Entscheiden Sie bitte so, als hätte es für Sie einen echten Wert.</p></div>",
+      "<p>Das Geld ist fiktiv und wird nicht ausgezahlt. Stellen Sie sich bitte trotzdem vor, es ginge um echte Entscheidungen, " +
+      "und entscheiden Sie so, als hätte das Geld für Sie einen echten Wert.</p></div>",
       '<div class="left"><h1>Ein Beispiel</h1>' +
       "<p>So sieht ein Durchgang aus. In diesem Beispiel ist die linke Möglichkeit ausgewählt.</p>" +
       '<div class="example" aria-label="Beispielbild eines Durchgangs">' +
